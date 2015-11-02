@@ -1,0 +1,6 @@
+public GraphQLOutputType <schemaname> = new GraphQLTypeReference("<qlname>");
+
+<schemaname> = GraphQLObjectType.newObject()
+            .name("<qlname>")
+            <fields>
+            .build();

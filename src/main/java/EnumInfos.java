@@ -1,17 +1,17 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.StringJoiner;
+import java.util.*;
 
 /**
  * Created by mabu on 2.11.2015.
  */
 public class EnumInfos {
+    private final Map<String, String> typeMap;
+
     List<EnumInfo> enumInfoList;
     String description;
 
-    public EnumInfos() {
+    public EnumInfos(Map<String, String> typeMap) {
         enumInfoList = new ArrayList<>(15);
+        this.typeMap = typeMap;
     }
 
     public void addEnum(EnumInfo enumInfo) {
@@ -20,8 +20,10 @@ public class EnumInfos {
     }
 
     public String toSchema(String className, String qlname) {
-        //TODO: implement this
-        String schemaName = "absoluteDirectionTypeEnum";
+        String schemaName = typeMap.get(className);
+        if (schemaName == null) {
+            throw new RuntimeException("Unknown class: " + className);
+        }
 
         final String enumTemplateContent = new Scanner(
             getClass().getResourceAsStream("templates/EnumType.txt")).useDelimiter("\\Z").next();

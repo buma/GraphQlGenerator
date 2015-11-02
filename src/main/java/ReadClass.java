@@ -9,11 +9,18 @@ import util.FileNameUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Map;
 
 /**
  * Created by mabu on 2.11.2015.
  */
 public class ReadClass implements IRead {
+
+    private final Map<String, String> typeMap;
+
+    public ReadClass(Map<String, String> typeMap) {
+        this.typeMap = typeMap;
+    }
 
     public String readFile(File file, String qlName) throws Exception{
         System.out.println("Reading: "+ file);
@@ -29,7 +36,7 @@ public class ReadClass implements IRead {
         }
 
 
-        FieldInfos fieldInfos = new FieldInfos();
+        FieldInfos fieldInfos = new FieldInfos(typeMap);
         new MethodVisitor().visit(cu, fieldInfos);
 
 

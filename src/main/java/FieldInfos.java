@@ -11,20 +11,9 @@ public class FieldInfos {
 
     private static String fieldDeclaration = "public GraphQLOutputType SCHEMANAME = new GraphQLTypeReference(\"QLANME\");\n";
 
-    public FieldInfos() {
+    public FieldInfos(Map<String, String> typeMap) {
         fieldInfoList = new ArrayList<>(50);
-        typeMap = new HashMap<>(20);
-        typeMap.put("Stats", "statsType");
-        typeMap.put("RouteShort", "routeType");
-        typeMap.put("SegmentPattern", "segmentPatternType");
-        typeMap.put("Fare", "fareType");
-        typeMap.put("TransitSegment", "transitSegmentType");
-        typeMap.put("StreetSegment", "streetSegmentType");
-        typeMap.put("StreetEdgeInfo", "streetEdgeInfoType");
-        typeMap.put("PolylineGeometry","polylineGeometryType");
-        typeMap.put("RelativeDirection", "relativeDirectionEnum");
-        typeMap.put("AbsoluteDirection", "absoluteDirectionEnum");
-        typeMap.put("NonTransitMode", "nonTransitModeEnum");
+        this.typeMap = typeMap;
     }
 
     public void addField(FieldInfo fieldInfo) {

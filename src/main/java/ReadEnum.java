@@ -6,11 +6,18 @@ import util.FileNameUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Map;
 
 /**
  * Created by mabu on 2.11.2015.
  */
 public class ReadEnum implements IRead {
+
+    private final Map<String, String> typeMap;
+
+    public ReadEnum(Map<String, String> typeMap) {
+        this.typeMap = typeMap;
+    }
 
     @Override
     public String readFile(File file, String qlName) throws Exception {
@@ -25,7 +32,7 @@ public class ReadEnum implements IRead {
         } finally {
             in.close();
         }
-        EnumInfos enumInfos = new EnumInfos();
+        EnumInfos enumInfos = new EnumInfos(typeMap);
         new EnumVisitor().visit(cu, enumInfos);
 
         String className = FileNameUtil.getFilenameWithoutExtension(file.getName());

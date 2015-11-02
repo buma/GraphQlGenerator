@@ -1,8 +1,10 @@
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.ModifierSet;
 import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.stmt.TypeDeclarationStmt;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import util.FileNameUtil;
@@ -56,11 +58,10 @@ public class ReadClass implements IRead {
     /**
      * Simple visitor implementation for visiting MethodDeclaration nodes.
      */
-    private static class MethodVisitor extends VoidVisitorAdapter {
+    private static class MethodVisitor extends VoidVisitorAdapter<FieldInfos> {
 
         @Override
-        public void visit(FieldDeclaration n, Object arg) {
-            FieldInfos fieldInfos = (FieldInfos)arg;
+        public void visit(FieldDeclaration n, FieldInfos fieldInfos) {
             for (final VariableDeclarator variable : n.getVariables()) {
                 Type type = n.getType();
                 if (ModifierSet.isPublic(n.getModifiers())) {
@@ -75,6 +76,11 @@ public class ReadClass implements IRead {
             }
 
             //super.visit(n, arg);
+        }
+
+        @Override public void visit(ClassOrInterfaceDeclaration n, FieldInfos fieldInfos) {
+            fieldInfos.setDescription(n.getComment());
+            super.visit(n, fieldInfos);
         }
     }
 }

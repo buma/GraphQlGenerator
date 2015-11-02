@@ -1,5 +1,7 @@
 
 
+import com.github.javaparser.ast.comments.Comment;
+
 import java.util.*;
 
 /**
@@ -8,8 +10,10 @@ import java.util.*;
 public class FieldInfos {
     List<FieldInfo> fieldInfoList;
     Map<String, String> typeMap;
+    String description;
 
     private static String fieldDeclaration = "public GraphQLOutputType SCHEMANAME = new GraphQLTypeReference(\"QLANME\");\n";
+    private static final String descriptionTemplate = ".description(\"%s\")";
 
     public FieldInfos(Map<String, String> typeMap) {
         fieldInfoList = new ArrayList<>(50);
@@ -34,6 +38,10 @@ public class FieldInfos {
 
         StringJoiner fieldsJoiner = new StringJoiner("\n            ");
 
+        if (description != null) {
+            fieldsJoiner.add(String.format(descriptionTemplate, description));
+
+        }
         for (final FieldInfo fieldinfo: fieldInfoList) {
             String field = fieldinfo.toGraphQlType(fieldTemplateContent, className);
             fields.append(field);
@@ -49,5 +57,19 @@ public class FieldInfos {
 
     public String toSchema(String stats) {
         return toSchema(stats, stats);
+    }
+
+    public void setDescription(Comment comment) {
+        if (comment == null) {
+            return;
+        }
+        description = comment.getContent().trim();
+
+        if (!comment.isLineComment()) {
+            //description = description.replaceAll("\\n\\s+\\*/?", "").replaceFirst("/\\*+", "");
+            description = description.replace('*', ' ');
+            description = description.replaceAll(" +", " ").replace("\n", "").trim();
+        }
+
     }
 }

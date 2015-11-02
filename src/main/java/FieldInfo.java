@@ -97,16 +97,17 @@ public class FieldInfo {
                     String primitiveType = classOrInterfaceType.getTypeArgs().get(0).toString();
                     String typeName = typeMap.get(primitiveType);
                     if (typeName != null) {
-                     type+=typeName+")";
+                        type += typeName + ")";
                     } else {
-                        throw new RuntimeException(
-                            "Unknown list element type: " + primitiveType
-                        );
+                        throw new RuntimeException("Unknown list element type: " + primitiveType);
                     }
                 } else {
-                    throw new RuntimeException(
-                        "Unsupported classOrInterfaceType: " + classOrInterfaceType
-                    );
+                    String typeName = typeMap.get(classOrInterfaceType.getName());
+                    if (typeName != null) {
+                        type = typeName;
+                    } else {
+                        throw new RuntimeException("Unsupported classOrInterfaceType: " + classOrInterfaceType);
+                    }
                 }
             } else {
                 throw new RuntimeException(

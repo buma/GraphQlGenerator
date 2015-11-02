@@ -22,8 +22,9 @@ public class FieldInfos {
         typeMap.put("StreetSegment", "streetSegmentType");
         typeMap.put("StreetEdgeInfo", "streetEdgeInfoType");
         typeMap.put("PolylineGeometry","polylineGeometryType");
-        typeMap.put("RelativeDirection", "relativeDirectionTypeEnum");
-        typeMap.put("AbsoluteDirection", "absoluteDirectionTypeEnum");
+        typeMap.put("RelativeDirection", "relativeDirectionEnum");
+        typeMap.put("AbsoluteDirection", "absoluteDirectionEnum");
+        typeMap.put("NonTransitMode", "nonTransitModeEnum");
     }
 
     public void addField(FieldInfo fieldInfo) {

@@ -1,6 +1,7 @@
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.EnumConstantDeclaration;
+import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import util.FileNameUtil;
 
@@ -49,9 +50,14 @@ public class ReadEnum implements IRead {
 
     private static class EnumVisitor extends VoidVisitorAdapter<EnumInfos> {
 
-        @Override public void visit(EnumConstantDeclaration n, EnumInfos enumInfos) {
-            EnumInfo enumInfo = new EnumInfo(n.getName(), n.getComment());
-            enumInfos.addEnum(enumInfo);
+        @Override public void visit(EnumDeclaration n, EnumInfos enumInfos) {
+            enumInfos.setDescription(n.getComment());
+            for (final EnumConstantDeclaration enumConstantDeclaration: n.getEntries()) {
+                EnumInfo enumInfo = new EnumInfo(enumConstantDeclaration.getName(), enumConstantDeclaration.getComment());
+                enumInfos.addEnum(enumInfo);
+
+            }
         }
+
     }
 }

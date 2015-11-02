@@ -1,3 +1,5 @@
+import com.github.javaparser.ast.comments.Comment;
+
 import java.util.*;
 
 /**
@@ -8,6 +10,8 @@ public class EnumInfos {
 
     List<EnumInfo> enumInfoList;
     String description;
+
+    private static final String descriptionTemplate = ".description(\"%s\")";
 
     public EnumInfos(Map<String, String> typeMap) {
         enumInfoList = new ArrayList<>(15);
@@ -29,9 +33,27 @@ public class EnumInfos {
             getClass().getResourceAsStream("templates/EnumType.txt")).useDelimiter("\\Z").next();
 
         StringJoiner enumJoiner = new StringJoiner("\n    ");
+        if (description != null) {
+            enumJoiner.add(String.format(descriptionTemplate, description));
+
+        }
         for (final EnumInfo enumInfo: enumInfoList) {
             enumJoiner.add(enumInfo.toGraphQlType());
         }
         return String.format(enumTemplateContent, schemaName, qlname, enumJoiner.toString());
+    }
+
+    public void setDescription(Comment comment) {
+        if (comment == null) {
+            return;
+        }
+        description = comment.getContent().trim();
+
+        if (!comment.isLineComment()) {
+            //description = description.replaceAll("\\n\\s+\\*/?", "").replaceFirst("/\\*+", "");
+            description = description.replace('*', ' ');
+            description = description.replaceAll(" +", " ").replace("\n", "").trim();
+        }
+
     }
 }

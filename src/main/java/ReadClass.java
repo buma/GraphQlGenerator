@@ -5,6 +5,7 @@ import com.github.javaparser.ast.body.ModifierSet;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import util.FileNameUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,15 +20,6 @@ public class ReadClass {
         return readFile(file, null);
 
 
-    }
-
-    private static String getFilenameWithoutExtension(String fileName) {
-
-        int pos = fileName.lastIndexOf(".");
-        if (pos > 0) {
-            fileName = fileName.substring(0, pos);
-        }
-        return fileName;
     }
 
     public String readFile(File file, String qlName) throws Exception{
@@ -49,7 +41,7 @@ public class ReadClass {
 
 
 
-        String className = getFilenameWithoutExtension(file.getName());
+        String className = FileNameUtil.getFilenameWithoutExtension(file.getName());
         String graphQLSchema;
         if (qlName == null) {
             graphQLSchema = fieldInfos.toSchema(className);

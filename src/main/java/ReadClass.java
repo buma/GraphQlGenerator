@@ -13,14 +13,7 @@ import java.io.FileInputStream;
 /**
  * Created by mabu on 2.11.2015.
  */
-public class ReadClass {
-
-
-    public String readFile(File file) throws Exception{
-        return readFile(file, null);
-
-
-    }
+public class ReadClass implements IRead {
 
     public String readFile(File file, String qlName) throws Exception{
         System.out.println("Reading: "+ file);

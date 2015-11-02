@@ -1,0 +1,4 @@
+public static GraphQLEnumType %1$s = GraphQLEnumType.newEnum()
+    .name("%2$s")
+    %3$s
+    .build();

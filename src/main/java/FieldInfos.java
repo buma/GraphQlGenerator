@@ -33,9 +33,6 @@ public class FieldInfos {
         final String mainTemplateContet = new Scanner(getClass().getResourceAsStream("templates/template.stg")).useDelimiter("\\Z").next();
         final String fieldTemplateContent = new Scanner(getClass().getResourceAsStream("templates/field.st")).useDelimiter("\\Z").next();
 
-
-        StringBuilder fields = new StringBuilder();
-
         StringJoiner fieldsJoiner = new StringJoiner("\n            ");
 
         if (description != null) {
@@ -44,8 +41,6 @@ public class FieldInfos {
         }
         for (final FieldInfo fieldinfo: fieldInfoList) {
             String field = fieldinfo.toGraphQlType(fieldTemplateContent, className);
-            fields.append(field);
-            fields.append("\n            ");
             fieldsJoiner.add(field);
         }
 

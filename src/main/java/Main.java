@@ -23,8 +23,11 @@ public class Main {
         typeMap.put("RelativeDirection", "relativeDirectionEnum");
         typeMap.put("AbsoluteDirection", "absoluteDirectionEnum");
         typeMap.put("NonTransitMode", "nonTransitModeEnum");
+        typeMap.put("LegMode", "legModeEnum");
+        typeMap.put("TransitModes", "transitmodeEnum");
+        typeMap.put("ProfileOption", "profileOptionType");
 
-        IRead readClass = new ReadEnum(typeMap);
+        IRead readClass = new ReadClass(typeMap);
         readClass.readFile(file);
 
         // prints the resulting compilation unit to default system output

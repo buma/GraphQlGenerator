@@ -135,7 +135,7 @@ public class FieldInfo {
      * @param comment
      */
     private void readComments(Comment comment) {
-        description = comment.getContent().trim();
+        description = comment.getContent();
         if (description.contains("notnull")) {
             notNull = true;
             description = description.replace("@notnull", "");
@@ -147,6 +147,7 @@ public class FieldInfo {
             defaultValue = description.substring(defaultIndex+"@default:".length()).trim();
             description = description.substring(0, defaultIndex);
         }
+        description = description.trim();
         if (comment.isLineComment()) {
             description = description.replaceFirst("//", "");
         } else {

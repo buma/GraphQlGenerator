@@ -38,7 +38,7 @@ public class EnumInfos {
 
         }
         for (final EnumInfo enumInfo: enumInfoList) {
-            enumJoiner.add(enumInfo.toGraphQlType());
+            enumJoiner.add(enumInfo.toGraphQlType(className));
         }
         return String.format(enumTemplateContent, schemaName, qlname, enumJoiner.toString());
     }

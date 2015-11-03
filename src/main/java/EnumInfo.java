@@ -8,8 +8,8 @@ public class EnumInfo {
     String description;
     public int order;
 
-    private static final String pureEnum = ".value(\"%1$s\", %2$d)";
-    private static final String enumWithDescription = ".value(\"%1$s\", %2$d, \"%3$s\")";
+    private static final String pureEnum = ".value(\"%1$s\", %2$s.%1$s)";
+    private static final String enumWithDescription = ".value(\"%1$s\", %2$s.%1$s, \"%3$s\")";
 
     public EnumInfo(String name, Comment comment) {
         this.name = name;
@@ -18,11 +18,11 @@ public class EnumInfo {
         }
     }
 
-    public String toGraphQlType() {
+    public String toGraphQlType(String className) {
         if (description != null) {
-            return String.format(enumWithDescription, name, order, description);
+            return String.format(enumWithDescription, name, className, description);
         } else {
-            return String.format(pureEnum, name, order);
+            return String.format(pureEnum, name, className);
         }
     }
 }

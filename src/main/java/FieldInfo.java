@@ -92,7 +92,7 @@ public class FieldInfo {
                     type = "Scalars.GraphQLString";
                     //List<T> it is assumed that T is some class that is in typeMap so we just replace
                     //className with variable where it should be defined
-                } else if (classOrInterfaceType.getName().equals("List")) {
+                } else if (classOrInterfaceType.getName().equals("List") || classOrInterfaceType.getName().equals("Set")) {
                     type = "new GraphQLList(";
                     String primitiveType = classOrInterfaceType.getTypeArgs().get(0).toString();
                     String typeName = typeMap.get(primitiveType);

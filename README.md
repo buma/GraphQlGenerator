@@ -29,6 +29,7 @@ In enums it reads:
 * better documentation
 * ability to add root java file and it automatically generates Graphql code for it and all its dependencies
 * nicer templates
+* Support for getters not only public variables
 
 ## License
 MIT

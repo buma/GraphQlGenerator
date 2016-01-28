@@ -1,0 +1,5 @@
+GraphQLFieldDefinition <schemaname>Field = GraphQLFieldDefinition.newFieldDefinition()
+            .name("<schemaname>")
+            .type(MISSING)
+            <fields>
+            .build()

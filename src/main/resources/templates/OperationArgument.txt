@@ -1,0 +1,5 @@
+.argument(GraphQLArgument.newArgument()
+                .name("<name>")
+                .type(<type>)
+                <rest>
+                .build())

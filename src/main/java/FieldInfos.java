@@ -24,14 +24,23 @@ public class FieldInfos {
         fieldInfoList.add(fieldInfo);
     }
 
-    public String toSchema(String className, String qlname) {
+    public String toSchema(boolean arguments, String className, String qlname) {
         String schemaName = typeMap.get(className);
         if (schemaName == null) {
             throw new RuntimeException("Unknown class: " + className);
         }
 
-        final String mainTemplateContet = new Scanner(getClass().getResourceAsStream("templates/template.stg")).useDelimiter("\\Z").next();
-        final String fieldTemplateContent = new Scanner(getClass().getResourceAsStream("templates/field.st")).useDelimiter("\\Z").next();
+        String mainTemplatePath, fieldTemplatePath;
+        if (arguments) {
+            mainTemplatePath = "templates/OperationField.txt";
+            fieldTemplatePath = "templates/OperationArgument.txt";
+        } else {
+            mainTemplatePath = "templates/template.stg";
+            fieldTemplatePath = "templates/field.st";
+        }
+
+        final String mainTemplateContet = new Scanner(getClass().getResourceAsStream(mainTemplatePath)).useDelimiter("\\Z").next();
+        final String fieldTemplateContent = new Scanner(getClass().getResourceAsStream(fieldTemplatePath)).useDelimiter("\\Z").next();
 
         StringJoiner fieldsJoiner = new StringJoiner("\n            ");
 
@@ -40,7 +49,7 @@ public class FieldInfos {
 
         }
         for (final FieldInfo fieldinfo: fieldInfoList) {
-            String field = fieldinfo.toGraphQlType(fieldTemplateContent, className);
+            String field = fieldinfo.toGraphQlType(fieldTemplateContent, className, arguments);
             fieldsJoiner.add(field);
         }
 
@@ -50,8 +59,8 @@ public class FieldInfos {
             .replace("<fields>", fieldsJoiner.toString());
     }
 
-    public String toSchema(String stats) {
-        return toSchema(stats, stats);
+    public String toSchema(boolean arguments, String stats) {
+        return toSchema(arguments, stats, stats);
     }
 
     public void setDescription(Comment comment) {

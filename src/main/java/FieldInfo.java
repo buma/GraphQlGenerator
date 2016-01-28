@@ -15,7 +15,6 @@ import java.util.Map;
 public class FieldInfo {
     public String name;
 
-    @Deprecated
     public String defaultValue;
 
     public String description;
@@ -33,6 +32,7 @@ public class FieldInfo {
     private static final String dataFetcherDouble = ".dataFetcher(environment -> (Float)((%1$s) environment.getSource()).%2$s)";
     private static final String notNullString = "new GraphQLNonNull(%s)";
     private static final String descriptionTemplate = ".description(\"%s\")\n";
+    private static final String defaultValueTemplate = ".defaultValue(%s)";
 
     private String setPrimitiveType(PrimitiveType primitiveType) {
         String local_type;
@@ -181,9 +181,11 @@ public class FieldInfo {
      * DataFetcher assumes that fields are public
      * @param templateContent
      * @param className
+     * @param arguments
      * @return
      */
-    public String toGraphQlType(final String templateContent, final String className) {
+    public String toGraphQlType(final String templateContent, final String className,
+        boolean arguments) {
         StringBuilder rest = new StringBuilder();
         String fullType = type;
 
@@ -195,10 +197,17 @@ public class FieldInfo {
             rest.append("                ");
         }
 
-        if (isDouble) {
-            rest.append(String.format(dataFetcherDouble, className, name));
-        } else {
-            rest.append(String.format(dataFetcher, className, name));
+        if (!arguments) {
+            if (isDouble) {
+                rest.append(String.format(dataFetcherDouble, className, name));
+            } else {
+                rest.append(String.format(dataFetcher, className, name));
+            }
+        } else if (defaultValue != null) {
+            if (type.equals("Scalars.GraphQLString")) {
+                defaultValue = "\"" + defaultValue + "\"";
+            }
+            rest.append(String.format(defaultValueTemplate, defaultValue));
         }
         return templateContent.replace("<name>", name)
             .replace("<rest>", rest.toString())

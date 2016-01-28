@@ -19,9 +19,15 @@ import java.util.Map;
 public class ReadClass implements IRead {
 
     private final Map<String, String> typeMap;
+    boolean arguments = false;
 
     public ReadClass(Map<String, String> typeMap) {
         this.typeMap = typeMap;
+    }
+
+    public ReadClass(Map<String, String> typeMap, boolean arguments) {
+        this.typeMap = typeMap;
+        this.arguments = arguments;
     }
 
     public String readFile(File file, String qlName) throws Exception{
@@ -46,9 +52,9 @@ public class ReadClass implements IRead {
         String className = FileNameUtil.getFilenameWithoutExtension(file.getName());
         String graphQLSchema;
         if (qlName == null) {
-            graphQLSchema = fieldInfos.toSchema(className);
+            graphQLSchema = fieldInfos.toSchema(arguments, className);
         } else {
-            graphQLSchema = fieldInfos.toSchema(className, qlName);
+            graphQLSchema = fieldInfos.toSchema(arguments, className, qlName);
         }
 
         System.out.println(graphQLSchema);

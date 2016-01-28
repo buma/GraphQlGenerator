@@ -1,4 +1,5 @@
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        File file = new File(args[0], "NonTransitMode.java");
+
 
         Map<String, String> typeMap = new HashMap<>(20);
         typeMap.put("Stats", "statsType");
@@ -26,9 +27,38 @@ public class Main {
         typeMap.put("LegMode", "legModeEnum");
         typeMap.put("TransitModes", "transitmodeEnum");
         typeMap.put("ProfileOption", "profileOptionType");
+        typeMap.put("BikeRentalStation", "bikeRentalStationType");
+        typeMap.put("Elevation", "elevationType");
+        typeMap.put("Alert", "alertType");
+        typeMap.put("Stop", "stopType");
+        typeMap.put("StopCluster", "stopClusterType");
+        typeMap.put("Coordinate", "inputCoordinateType");
+        typeMap.put("ProfileRequest", "profile");
+        typeMap.put("LocalDate", "Scalars.GraphQLString");
+        typeMap.put("SearchType", "searchTypeEnum");
+        typeMap.put("TransitJourneyID", "transitJourneyIDType");
+        typeMap.put("PointToPointConnection", "pointToPointConnectionType");
+        typeMap.put("ZonedDateTime", "GraphQLZonedDateTime");
+        typeMap.put("Itinerary", "itineraryType");
+        typeMap.put("Trip", "tripType");
 
-        IRead readClass = new ReadClass(typeMap);
+        /*for (Map.Entry<String, String> typeStuff: typeMap.entrySet()) {
+            if (typeStuff.getValue().endsWith("Enum")) {
+                File file = new File(args[0], typeStuff.getKey() + ".java");
+                IRead readClass = new ReadEnum(typeMap);
+                readClass.readFile(file);
+            }
+        }*/
+
+        File file = new File(args[0],  "api/util/Trip.java");
+        IRead readClass = new ReadClass(typeMap, false);
+        //IRead readClass = new ReadEnum(typeMap);
         readClass.readFile(file);
+
+        //file = new File(args[0],  "StopCluster.java");
+        //readClass.readFile(file);
+
+
 
         // prints the resulting compilation unit to default system output
         //System.out.println(cu.toString());

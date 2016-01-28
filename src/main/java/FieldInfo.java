@@ -98,6 +98,8 @@ public class FieldInfo {
                     String typeName = typeMap.get(primitiveType);
                     if (typeName != null) {
                         type += typeName + ")";
+                    } else if (classOrInterfaceType.getTypeArgs().get(0).toString().equals("String")) {
+                        type += "Scalars.GraphQLString" + ")";
                     } else {
                         throw new RuntimeException("Unknown list element type: " + primitiveType);
                     }
